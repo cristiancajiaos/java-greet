@@ -1,11 +1,13 @@
 package com.example.javagreet.controller;
 
 import com.example.javagreet.entity.Greet;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class GreetController {
 
   @GetMapping
-  public ResponseEntity<Greet> getGreet() {
-    Greet greet = new Greet("Hola, mundo!");
+  public ResponseEntity<Greet> getGreet(@RequestParam(name = "message", required = false) String message) {
+    Greet greet = new Greet((message != null) ? message : "Hola, mundo!");
     return ResponseEntity.ok(greet);
   }
 
@@ -23,5 +25,4 @@ public class GreetController {
     Greet newGreet = new Greet(greet.getMessage());
     return ResponseEntity.ok(newGreet);
   }
-
 }
